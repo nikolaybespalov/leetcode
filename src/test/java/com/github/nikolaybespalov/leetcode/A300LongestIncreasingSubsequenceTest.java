@@ -27,4 +27,18 @@ public class A300LongestIncreasingSubsequenceTest {
                 7, 7, 7, 7, 7, 7, 7
         }));
     }
+
+    @Test
+    public void test4() {
+        assertEquals(1, instance.lengthOfLIS(new int[]{
+                3, 2, 1
+        }));
+    }
+
+    @Test
+    public void test5() {
+        assertEquals(6, instance.lengthOfLIS(new int[]{
+                3, 5, 6, 2, 5, 4, 19, 5, 6, 7, 12
+        }));
+    }
 }
