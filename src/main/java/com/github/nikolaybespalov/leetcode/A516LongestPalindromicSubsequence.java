@@ -5,30 +5,31 @@ package com.github.nikolaybespalov.leetcode;
  */
 public class A516LongestPalindromicSubsequence {
     public int longestPalindromeSubseq(String s) {
-        int ans = 1;
+        int n = s.length();
 
-        for (int i = 0; i < s.length(); i++) {
-            String ss = String.valueOf(s.charAt(i));
+        int[][] dp = new int[n][n];
 
-            for (int j = i + 1; j < s.length(); j++) {
-                ss = ss + s.charAt(j);
-
-                if (isPalindrome(ss)) {
-                    ans = Math.max(ans, (ss).length());
-                }
-            }
-        }
-
-        return ans;
+        return longestPalindromeSubseq(s, 0, n - 1, dp);
     }
 
-    private boolean isPalindrome(String s) {
-        for (int i = 0; i < s.length() / 2; i++) {
-            if (s.charAt(i) != s.charAt(s.length() - i - 1)) {
-                return false;
-            }
+    private int longestPalindromeSubseq(String s, int firstIndex, int lastIndex, int[][] dp) {
+        if (firstIndex > lastIndex) {
+            return dp[firstIndex][lastIndex] = 0;
         }
 
-        return true;
+        if (firstIndex == lastIndex) {
+            return dp[firstIndex][lastIndex] = 1;
+        }
+
+        if (dp[firstIndex][lastIndex] != 0) {
+            return dp[firstIndex][lastIndex];
+        }
+
+        if (s.charAt(firstIndex) == s.charAt(lastIndex)) {
+            return dp[firstIndex][lastIndex] = 2 + longestPalindromeSubseq(s, firstIndex + 1, lastIndex - 1, dp);
+        } else {
+            return dp[firstIndex][lastIndex] = Math.max(longestPalindromeSubseq(s, firstIndex + 1, lastIndex, dp),
+                    longestPalindromeSubseq(s, firstIndex, lastIndex - 1, dp));
+        }
     }
 }
