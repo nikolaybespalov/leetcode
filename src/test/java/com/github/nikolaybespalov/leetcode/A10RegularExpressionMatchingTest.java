@@ -67,4 +67,14 @@ public class A10RegularExpressionMatchingTest {
     public void test12() {
         assertFalse(instance.isMatch("aaa", "ab*a"));
     }
+
+    @Test
+    public void test13() {
+        assertTrue(instance.isMatch("aaa", "a*a"));
+    }
+
+    @Test
+    public void test14() {
+        assertTrue(instance.isMatch("a", "ab*"));
+    }
 }
