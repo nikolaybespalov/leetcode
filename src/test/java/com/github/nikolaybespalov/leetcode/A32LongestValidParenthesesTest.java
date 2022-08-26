@@ -44,7 +44,7 @@ public class A32LongestValidParenthesesTest {
 
     @Test
     public void test8() {
-        assertEquals(2, instance.longestValidParentheses("(()"));
+        assertEquals(2, instance.longestValidParentheses("())"));
     }
 
     @Test
