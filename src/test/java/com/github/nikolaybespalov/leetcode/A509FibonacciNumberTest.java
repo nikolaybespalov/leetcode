@@ -31,4 +31,9 @@ public class A509FibonacciNumberTest {
     public void test4() {
         assertEquals(3, instance.fib(4));
     }
+
+    @Test
+    public void test1000() {
+        assertEquals(1556111435, instance.fib(1000));
+    }
 }
