@@ -9,10 +9,10 @@ public class A146LRUCache {
     static class MyLinkedNode<T> {
         MyLinkedNode<T> next;
         MyLinkedNode<T> prev;
-        T value;
+        T data;
 
-        public MyLinkedNode(T value) {
-            this.value = value;
+        public MyLinkedNode(T data) {
+            this.data = data;
         }
     }
 
@@ -48,14 +48,14 @@ public class A146LRUCache {
 
         moveToHead(node);
 
-        return head.value.value;
+        return head.data.value;
     }
 
     public void put(int key, int value) {
         if (keyToNode.containsKey(key)) {
             MyLinkedNode<KeyValue> node = keyToNode.get(key);
 
-            node.value.value = value;
+            node.data.value = value;
 
             moveToHead(node);
 
@@ -63,7 +63,7 @@ public class A146LRUCache {
         }
 
         if (keyToNode.size() == capacity) {
-            keyToNode.remove(tail.value.key);
+            keyToNode.remove(tail.data.key);
 
             if (tail.prev != null) {
                 tail = tail.prev;
