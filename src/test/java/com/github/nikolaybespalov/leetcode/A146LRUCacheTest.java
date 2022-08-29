@@ -8,7 +8,7 @@ public class A146LRUCacheTest {
 
     @Test
     public void test1() {
-        A146LRUCache.LRUCache instance = new A146LRUCache.LRUCache(123);
+        A146LRUCache instance = new A146LRUCache(123);
 
         assertEquals(-1, instance.get(0));
         instance.put(0, 0);
@@ -17,7 +17,7 @@ public class A146LRUCacheTest {
 
     @Test
     public void test2() {
-        A146LRUCache.LRUCache instance = new A146LRUCache.LRUCache(3);
+        A146LRUCache instance = new A146LRUCache(3);
 
         instance.put(0, 0);
         instance.put(1, 1);
@@ -29,7 +29,7 @@ public class A146LRUCacheTest {
 
     @Test
     public void test3() {
-        A146LRUCache.LRUCache instance = new A146LRUCache.LRUCache(3);
+        A146LRUCache instance = new A146LRUCache(3);
 
         instance.put(0, 0);
         instance.put(1, 1);
@@ -43,7 +43,7 @@ public class A146LRUCacheTest {
 
     @Test
     public void test4() {
-        A146LRUCache.LRUCache instance = new A146LRUCache.LRUCache(2);
+        A146LRUCache instance = new A146LRUCache(2);
 
         instance.put(1, 1);
         instance.put(2, 2);
@@ -58,7 +58,7 @@ public class A146LRUCacheTest {
 
     @Test
     public void test5() {
-        A146LRUCache.LRUCache instance = new A146LRUCache.LRUCache(1);
+        A146LRUCache instance = new A146LRUCache(1);
 
         instance.put(2, 1);
         assertEquals(1, instance.get(2));
@@ -66,7 +66,7 @@ public class A146LRUCacheTest {
 
     @Test
     public void test6() {
-        A146LRUCache.LRUCache instance = new A146LRUCache.LRUCache(2);
+        A146LRUCache instance = new A146LRUCache(2);
 
         assertEquals(-1, instance.get(2));
         instance.put(2, 6);
@@ -79,7 +79,7 @@ public class A146LRUCacheTest {
 
     @Test
     public void test7() {
-        A146LRUCache.LRUCache instance = new A146LRUCache.LRUCache(2);
+        A146LRUCache instance = new A146LRUCache(2);
 
         instance.put(2, 1);
         instance.put(3, 2);
@@ -93,7 +93,7 @@ public class A146LRUCacheTest {
 
     @Test
     public void test8() {
-        A146LRUCache.LRUCache instance = new A146LRUCache.LRUCache(1);
+        A146LRUCache instance = new A146LRUCache(1);
 
         assertEquals(-1, instance.get(6));
         assertEquals(-1, instance.get(8));
