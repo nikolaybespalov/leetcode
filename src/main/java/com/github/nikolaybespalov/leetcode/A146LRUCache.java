@@ -17,10 +17,10 @@ public class A146LRUCache {
     }
 
     static class KeyValue {
-        Integer key;
-        Integer value;
+        int key;
+        int value;
 
-        public KeyValue(Integer key, Integer value) {
+        public KeyValue(int key, int value) {
             this.key = key;
             this.value = value;
         }
