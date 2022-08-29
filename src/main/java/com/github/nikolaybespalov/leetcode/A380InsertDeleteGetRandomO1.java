@@ -45,7 +45,6 @@ public class A380InsertDeleteGetRandomO1 {
                 array.remove(array.size() - 1);
 
                 map.remove(val);
-                map.remove(tmp);
                 map.put(tmp, i);
 
                 return true;
