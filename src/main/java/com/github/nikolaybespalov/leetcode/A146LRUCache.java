@@ -26,10 +26,10 @@ public class A146LRUCache {
         }
     }
 
+    private final int capacity;
     private final HashMap<Integer, MyLinkedNode<KeyValue>> keyToNode = new HashMap<>();
     private MyLinkedNode<KeyValue> head;
     private MyLinkedNode<KeyValue> tail;
-    private final int capacity;
 
     public A146LRUCache(int capacity) {
         if (capacity < 0) {
