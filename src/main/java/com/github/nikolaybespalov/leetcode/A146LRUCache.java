@@ -48,7 +48,7 @@ public class A146LRUCache {
 
         moveToHead(node);
 
-        return head.data.value;
+        return node.data.value;
     }
 
     public void put(int key, int value) {
