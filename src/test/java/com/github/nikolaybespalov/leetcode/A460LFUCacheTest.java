@@ -232,9 +232,6 @@ public class A460LFUCacheTest {
         assertEquals(4, instance.get(4));
         assertEquals(3, instance.get(3));
         assertEquals(4, instance.get(4));
-
-        int asd = 0;
-        int asdf = asd;
     }
 
     @Test
@@ -247,8 +244,40 @@ public class A460LFUCacheTest {
         assertEquals(3, instance.get(3));
         assertEquals(3, instance.get(3));
         assertEquals(1, instance.get(1));
+    }
 
-        int asd = 0;
-        int asdf = asd;
+    @Test
+    public void test12() {
+        A460LFUCache instance = new A460LFUCache(1);
+        instance.put(1, 1);
+        assertEquals(1, instance.get(1));
+        assertEquals(1, instance.get(1));
+        assertEquals(1, instance.get(1));
+        assertEquals(1, instance.get(1));
+        instance.put(2, 2);
+        assertEquals(2, instance.get(2));
+    }
+
+    @Test
+    public void test13() {
+        A460LFUCache instance = new A460LFUCache(2);
+        instance.put(1, 1);
+        assertEquals(1, instance.get(1));
+        instance.put(2, 2);
+        assertEquals(2, instance.get(2));
+        instance.put(3, 3);
+        assertEquals(2, instance.get(2));
+    }
+
+    @Test
+    public void test14() {
+        A460LFUCache instance = new A460LFUCache(2);
+        instance.put(1, 1);
+        assertEquals(1, instance.get(1));
+        instance.put(2, 2);
+        assertEquals(2, instance.get(2));
+        instance.put(2, 200);
+        assertEquals(200, instance.get(2));
+        assertEquals(200, instance.get(2));
     }
 }

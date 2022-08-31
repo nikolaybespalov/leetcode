@@ -16,22 +16,86 @@ public class A460LFUCache {
         }
     }
 
+    static class MyLinkedList<T> {
+        MyLinkedNode<T> head;
+        MyLinkedNode<T> tail;
+        int size = 0;
+
+        void pushFront(MyLinkedNode<T> node) {
+            if (head == null) {
+                head = node;
+                tail = head;
+            } else {
+                node.next = head;
+                head.prev = node;
+                head = node;
+            }
+
+            size++;
+        }
+
+        void remove(MyLinkedNode<T> node) {
+            MyLinkedNode<T> next = node.next;
+            MyLinkedNode<T> prev = node.prev;
+
+            if (next != null && prev != null) {
+                node.prev.next = next;
+                node.next.prev = prev;
+            } else if (next != null) {
+                head = next;
+                head.prev = null;
+            } else if (prev != null) {
+                tail = prev;
+                tail.next = null;
+            } else {
+                head = tail = null;
+            }
+
+            node.next = null;
+            node.prev = null;
+
+            size--;
+        }
+
+        MyLinkedNode<T> popBack() {
+            MyLinkedNode<T> node = tail;
+
+            if (tail.prev != null) {
+                tail = tail.prev;
+                tail.next = null;
+            } else {
+                head = tail = null;
+            }
+
+            node.next = null;
+            node.prev = null;
+
+            size--;
+
+            return node;
+        }
+
+        boolean isEmpty() {
+            return size == 0;
+        }
+    }
+
     static class KeyValue {
         int key;
         int value;
-        int cnt;
+        int counter;
 
         public KeyValue(int key, int value) {
             this.key = key;
             this.value = value;
-            this.cnt = 1;
+            this.counter = 1;
         }
     }
 
     private final int capacity;
-    private final HashMap<Integer, MyLinkedNode<KeyValue>> keyToNode = new HashMap<>();
-    private final HashMap<Integer, MyLinkedNode<KeyValue>> cntToHead = new HashMap<>();
-    private MyLinkedNode<KeyValue> tail;
+    private final HashMap<Integer, MyLinkedNode<KeyValue>> nodeMap = new HashMap<>();
+    private final HashMap<Integer, MyLinkedList<KeyValue>> countMap = new HashMap<>();
+    private int minCounter;
 
     public A460LFUCache(int capacity) {
         if (capacity < 0) {
@@ -42,21 +106,13 @@ public class A460LFUCache {
     }
 
     public int get(int key) {
-        if (capacity == 0) {
-            return -1;
-        }
-
-        MyLinkedNode<KeyValue> node = keyToNode.get(key);
+        MyLinkedNode<KeyValue> node = nodeMap.get(key);
 
         if (node == null) {
             return -1;
         }
 
-        MyLinkedNode<KeyValue> prev = removeNode(node);
-
-        node.data.cnt++;
-
-        putNode(node, prev);
+        update(node);
 
         return node.data.value;
     }
@@ -66,137 +122,39 @@ public class A460LFUCache {
             return;
         }
 
-        if (keyToNode.containsKey(key)) {
-            MyLinkedNode<KeyValue> node = keyToNode.get(key);
+        MyLinkedNode<KeyValue> node = nodeMap.get(key);
 
+        if (node != null) {
             node.data.value = value;
-
-            MyLinkedNode<KeyValue> prev = removeNode(node);
-
-            node.data.cnt++;
-
-            putNode(node, prev);
-
-            return;
-        }
-
-        MyLinkedNode<KeyValue> prev = null;
-
-        if (keyToNode.size() == capacity) {
-            keyToNode.remove(tail.data.key);
-
-            prev = removeNode(tail);
-        }
-
-        MyLinkedNode<KeyValue> head;
-
-        if (keyToNode.size() == 0) {
-            head = new MyLinkedNode<>(new KeyValue(key, value));
-            tail = head;
+            update(node);
         } else {
-            MyLinkedNode<KeyValue> node = new MyLinkedNode<>(new KeyValue(key, value));
-            head = cntToHead.get(1);
-
-            if (head != null) {
-                if (head.prev != null) {
-                    head.prev.next = node;
-                    node.prev = head.prev;
-                }
-                node.next = head;
-                head.prev = node;
-            } else {
-                if (prev != null) {
-                    node.prev = prev;
-                    prev.next = node;
-                } else {
-                    int asd = 0;
-                    int asdf = asd;
-                }
+            if (nodeMap.size() == capacity) {
+                MyLinkedList<KeyValue> lfList = countMap.get(minCounter);
+                MyLinkedNode<KeyValue> removed = lfList.popBack();
+                nodeMap.remove(removed.data.key);
             }
 
-            head = node;
+            minCounter = 1;
 
-            if (node.next == null) {
-                tail = node;
-            }
+            node = new MyLinkedNode<>(new KeyValue(key, value));
+            MyLinkedList<KeyValue> lfList = countMap.getOrDefault(minCounter, new MyLinkedList<>());
+            lfList.pushFront(node);
+            countMap.put(minCounter, lfList);
+            nodeMap.put(node.data.key, node);
         }
-
-        cntToHead.put(1, head);
-        keyToNode.put(key, head);
     }
 
-    private void putNode(MyLinkedNode<KeyValue> node, MyLinkedNode<KeyValue> prev2) {
-//        if (node.prev == null) {
-//            return;
-//        }
+    private void update(MyLinkedNode<KeyValue> node) {
+        MyLinkedList<KeyValue> lfList = countMap.get(node.data.counter);
+        lfList.remove(node);
 
-        MyLinkedNode<KeyValue> head = cntToHead.get(node.data.cnt);
-
-        if (head != null) {
-            if (head.prev != null) {
-                head.prev.next = node;
-                node.prev = head.prev;
-            }
-
-            head.prev = node;
-            node.next = head;
-        } else {
-            // Тут нужно иметь такой, что минимальный близкий справа
-            MyLinkedNode<KeyValue> next = cntToHead.get(node.data.cnt - 1);
-
-            if (next != null) {
-                node.next = next;
-                next.prev = node;
-            } else {
-                node.next = null;
-            }
-
-            // Тут нужно иметь такой что максимально близкий слева
-            MyLinkedNode<KeyValue> prev = cntToHead.get(node.data.cnt + 1);
-
-            if (prev != null) {
-                node.prev = prev;
-                prev.next = node;
-            } else {
-                node.prev = null;
-            }
+        if (node.data.counter == minCounter && lfList.isEmpty()) {
+            minCounter++;
         }
 
-        head = node;
-
-        cntToHead.put(head.data.cnt, head);
-    }
-
-    private MyLinkedNode<KeyValue> removeNode(MyLinkedNode<KeyValue> node) {
-        if (node.prev == null && node.next == null ||
-                node.next == null && node.data.cnt < node.prev.data.cnt ||
-                node.prev == null && node.data.cnt > node.next.data.cnt ||
-                node.prev != null && node.next != null && node.data.cnt < node.prev.data.cnt && node.data.cnt > node.next.data.cnt) {
-            cntToHead.remove(node.data.cnt);
-        }
-
-        if (node.prev == null && node.next != null ||
-                node.prev != null && node.data.cnt < node.prev.data.cnt && node.next != null) {
-            cntToHead.put(node.next.data.cnt, node.next);
-        }
-
-        if (node.prev == null) {
-            return null;
-        } else if (node.next == null) {
-            tail = node.prev;
-            tail.next = null;
-        } else {
-            MyLinkedNode<KeyValue> next = node.next;
-            MyLinkedNode<KeyValue> prev = node.prev;
-            node.prev.next = next;
-            node.next.prev = prev;
-        }
-
-        MyLinkedNode<KeyValue> prev = node.prev;
-
-        //node.prev = null;
-        //node.next = null;
-
-        return prev;
+        node.data.counter++;
+        MyLinkedList<KeyValue> newLfList = countMap.getOrDefault(node.data.counter, new MyLinkedList<>());
+        newLfList.pushFront(node);
+        countMap.put(node.data.counter, newLfList);
     }
 }
