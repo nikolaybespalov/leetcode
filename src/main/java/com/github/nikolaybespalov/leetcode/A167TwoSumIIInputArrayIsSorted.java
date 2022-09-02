@@ -10,18 +10,17 @@ public class A167TwoSumIIInputArrayIsSorted {
     private static final int MAX_VALUE = 1000;
 
     public int[] twoSum(int[] numbers, int target) {
-        int[] map = new int[MAX_VALUE + 1 - MIN_VALUE + 1];
-        Arrays.fill(map, Integer.MIN_VALUE);
+        int[] map = new int[MAX_VALUE + 1 + 1 - MIN_VALUE + 1];
 
         for (int i = 0; i < numbers.length; i++) {
             int v = target - numbers[i];
-            int j = v + MAX_VALUE;
+            int j = v + MAX_VALUE + 1;
 
-            if (map[j] != Integer.MIN_VALUE) {
-                return new int[]{map[j] + 1, i + 1};
+            if (map[j] != 0) {
+                return new int[]{map[j], i + 1};
             }
 
-            map[numbers[i] + MAX_VALUE] = i;
+            map[numbers[i] + MAX_VALUE + 1] = i + 1;
         }
 
         return null;
