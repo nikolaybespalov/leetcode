@@ -2,15 +2,53 @@ package com.github.nikolaybespalov.leetcode;
 
 import com_github_leetcode.TreeNode;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Iterator;
 
 /**
  * @see <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/">297. Serialize and Deserialize Binary Tree</a>
  */
 public class A297SerializeAndDeserializeBinaryTree {
     public static class Codec {
+        static class DataIterator implements Iterator<Integer> {
+            private final String s;
+            private int i;
+            private Integer next;
 
-        // Encodes a tree to a single string.
+            DataIterator(String s) {
+                this.s = s;
+            }
+
+            public boolean hasNext() {
+                if (i >= s.length()) {
+                    return false;
+                }
+
+                int commaPosition = s.indexOf(',', i);
+
+                String asd;
+
+                if (commaPosition == -1) {
+                    asd = s.substring(i);
+                } else {
+                    asd = s.substring(i, commaPosition);
+                }
+
+                i += asd.length() + 1;
+
+                if (asd.equals("null")) {
+                    next = null;
+                } else {
+                    next = Integer.parseInt(asd);
+                }
+
+                return true;
+            }
+
+            public Integer next() {
+                return next;
+            }
+        }
+
         public String serialize(TreeNode root) {
             StringBuilder sb = new StringBuilder();
 
@@ -21,48 +59,23 @@ public class A297SerializeAndDeserializeBinaryTree {
             return sb.toString();
         }
 
-        // Decodes your encoded data to tree.
         public TreeNode deserialize(String data) {
-            if (data.isEmpty()) {
-                return null;
-            }
-
-            String[] parts = data.split(",");
-
-            return deserialize(parts);
+            return deserialize(null, new DataIterator(data));
         }
 
-        private TreeNode deserialize(String[] parts) {
-            TreeNode root;
+        private TreeNode deserialize(TreeNode node, DataIterator it) {
+            if (it.hasNext()) {
+                Integer val = it.next();
 
-            if (parts[0].equals("null")) {
-                root = null;
-            } else {
-                root = new TreeNode(Integer.parseInt(parts[0]));
-            }
+                if (val != null) {
+                    node = new TreeNode(val);
 
-            deserialize(root, parts, new AtomicInteger(1));
-
-            return root;
-        }
-
-        private void deserialize(TreeNode root, String[] parts, AtomicInteger i) {
-            if (root != null) {
-                if (i.get() < parts.length) {
-                    if (!parts[i.get()].equals("null")) {
-                        root.left = new TreeNode(Integer.parseInt(parts[i.get()]));
-                    }
-                    i.incrementAndGet();
-                    deserialize(root.left, parts, i);
-                }
-                if (i.get() < parts.length) {
-                    if (!parts[i.get()].equals("null")) {
-                        root.right = new TreeNode(Integer.parseInt(parts[i.get()]));
-                    }
-                    i.incrementAndGet();
-                    deserialize(root.right, parts, i);
+                    node.left = deserialize(node.left, it);
+                    node.right = deserialize(node.right, it);
                 }
             }
+
+            return node;
         }
 
         private void serialize(TreeNode node, StringBuilder sb) {
