@@ -33,19 +33,23 @@ public class A297SerializeAndDeserializeBinaryTree {
                     ss = s.substring(i, commaPosition);
                 }
 
-                i += ss.length() + 1;
+                next = parseInt(ss);
 
-                if (ss.equals("null")) {
-                    next = null;
-                } else {
-                    next = Integer.parseInt(ss);
-                }
+                i += ss.length() + 1;
 
                 return true;
             }
 
             public Integer next() {
                 return next;
+            }
+
+            private Integer parseInt(String ss) {
+                if (ss.equals("null")) {
+                    return null;
+                }
+
+                return Integer.parseInt(ss);
             }
         }
 
