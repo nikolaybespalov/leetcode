@@ -44,5 +44,11 @@ public class LeetcodeUtils {
     }
 
     public static void assertSameTree(TreeNode root1, TreeNode root2) {
+        if (root1 != null && root2 != null && root1.val == root2.val) {
+            assertSameTree(root1.left, root2.left);
+            assertSameTree(root1.right, root2.right);
+        } else if (root1 != null || root2 != null) {
+            fail("Trees are not same");
+        }
     }
 }
