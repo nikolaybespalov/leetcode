@@ -25,20 +25,20 @@ public class A297SerializeAndDeserializeBinaryTree {
 
                 int commaPosition = s.indexOf(',', i);
 
-                String asd;
+                String ss;
 
                 if (commaPosition == -1) {
-                    asd = s.substring(i);
+                    ss = s.substring(i);
                 } else {
-                    asd = s.substring(i, commaPosition);
+                    ss = s.substring(i, commaPosition);
                 }
 
-                i += asd.length() + 1;
+                i += ss.length() + 1;
 
-                if (asd.equals("null")) {
+                if (ss.equals("null")) {
                     next = null;
                 } else {
-                    next = Integer.parseInt(asd);
+                    next = Integer.parseInt(ss);
                 }
 
                 return true;
