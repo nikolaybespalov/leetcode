@@ -42,4 +42,26 @@ public class A142LinkedListCycleIITest {
 
         assertEquals(list, instance.detectCycle(list));
     }
+
+    @Test
+    public void test5() {
+        ListNode list = new ListNode(3);
+        list.next = new ListNode(2);
+        list.next.next = new ListNode(0);
+        list.next.next.next = new ListNode(-4);
+        list.next.next.next.next = list.next.next.next;
+
+        assertEquals(list.next.next.next, instance.detectCycle(list));
+    }
+
+    @Test
+    public void test6() {
+        ListNode list = new ListNode(3);
+        list.next = new ListNode(2);
+        list.next.next = new ListNode(0);
+        list.next.next.next = new ListNode(-4);
+        list.next.next.next.next = list;
+
+        assertEquals(list, instance.detectCycle(list));
+    }
 }
