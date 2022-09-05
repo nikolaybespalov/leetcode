@@ -1,7 +1,6 @@
 package com.github.nikolaybespalov.leetcode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,8 +22,10 @@ public class A118PascalsTriangle {
 
             row.add(1);
 
+            List<Integer> prev = ans.get(i - 1);
+
             for (int j = 1; j < n - 1; j++) {
-                row.add(ans.get(i - 1).get(j - 1) + ans.get(i - 1).get(j));
+                row.add(prev.get(j - 1) + prev.get(j));
             }
 
             row.add(1);
