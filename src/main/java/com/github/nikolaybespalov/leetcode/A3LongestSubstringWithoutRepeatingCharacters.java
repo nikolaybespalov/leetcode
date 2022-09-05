@@ -1,46 +1,27 @@
 package com.github.nikolaybespalov.leetcode;
 
-import java.util.HashMap;
+import java.util.Arrays;
 
 /**
  * @see <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">3. Longest Substring Without Repeating Characters</a>
  */
 public class A3LongestSubstringWithoutRepeatingCharacters {
     public int lengthOfLongestSubstring(String s) {
-        HashMap<Character, Integer> table = new HashMap<>();
-
-        for (int i = 0; i < s.length(); i++) {
-            int v = table.getOrDefault(s.charAt(i), 0);
-            table.put(s.charAt(i), v + 1);
-        }
-
-        return lengthOfLongestSubstring(s, table, 0, s.length() - 1);
-    }
-
-    public int lengthOfLongestSubstring(String s, HashMap<Character, Integer> table, int left, int right) {
-        if (left > right) {
-            return 0;
-        }
-
-        boolean f = false;
+        int[] table = new int[128];
+        Arrays.fill(table, -1);
         int ans = 0;
 
-        for (int i = left; i <= right; i++) {
-            int v = table.get(s.charAt(i));
+        for (int end = 0, start = 0; end < s.length(); end++) {
+            char c = s.charAt(end);
 
-            if (v > 1) {
-                f = true;
-                break;
-            } else {
-                ans++;
+            if (table[c] >= start) {
+                start = table[c] + 1;
             }
+
+            table[c] = end;
+            ans = Math.max(ans, end - start + 1);
         }
 
-        if (!f) {
-            return right - left + 1;
-        }
-
-        return Math.max(lengthOfLongestSubstring(s, table, left + 1, right),
-                lengthOfLongestSubstring(s, table, left, right - 1));
+        return ans;
     }
 }
