@@ -7,53 +7,27 @@ import com_github_leetcode.ListNode;
  */
 public class A21MergeTwoSortedLists {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if (list1 == null && list2 == null) {
-            return null;
-        }
-
-        ListNode head = new ListNode();
-        ListNode ans = head;
-        ListNode prev = null;
+        ListNode prev = new ListNode(0);
+        ListNode ans = prev;
 
         while (list1 != null && list2 != null) {
-            if (list1.val < list2.val) {
-                head.val = list1.val;
+            if (list1.val <= list2.val) {
+                prev.next = list1;
                 list1 = list1.next;
-                prev = head;
-                head = head.next = new ListNode();
-            } else if (list1.val > list2.val) {
-                head.val = list2.val;
-                list2 = list2.next;
-                prev = head;
-                head = head.next = new ListNode();
             } else {
-                head.val = list1.val;
-                list1 = list1.next;
-                head = head.next = new ListNode();
-
-                head.val = list2.val;
+                prev.next = list2;
                 list2 = list2.next;
-                prev = head;
-                head = head.next = new ListNode();
             }
+
+            prev = prev.next;
         }
 
-        while (list1 != null) {
-            head.val = list1.val;
-            list1 = list1.next;
-            prev = head;
-            head = head.next = new ListNode();
+        if (list1 != null) {
+            prev.next = list1;
+        } else if (list2 != null) {
+            prev.next = list2;
         }
 
-        while (list2 != null) {
-            head.val = list2.val;
-            list2 = list2.next;
-            prev = head;
-            head = head.next = new ListNode();
-        }
-
-        prev.next = null;
-
-        return ans;
+        return ans.next;
     }
 }

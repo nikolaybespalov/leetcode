@@ -38,8 +38,15 @@ public class A21MergeTwoSortedListsTest {
 
     @Test
     public void test5() {
-        assertSameList(toListNode("1,2,3,4,5,6,7,8"),
+        assertSameList(toListNode("1,2,3,4,5,6"),
                 instance.mergeTwoLists(toListNode("1,2,3"),
-                        toListNode("4,5,6,7,8")));
+                        toListNode("4,5,6")));
+    }
+
+    @Test
+    public void test6() {
+        assertSameList(toListNode("1,2,3,4,5,6"),
+                instance.mergeTwoLists(toListNode("4,5,6"),
+                        toListNode("1,2,3")));
     }
 }
