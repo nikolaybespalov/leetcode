@@ -4,9 +4,9 @@ package com.github.nikolaybespalov.leetcode;
  * @see <a href="https://leetcode.com/problems/linked-list-cycle-ii/">142. Linked List Cycle II</a>
  */
 public class A142LinkedListCycleII {
-    public ListNode detectCycle(ListNode head) {
-        ListNode slow = head;
-        ListNode fast = head;
+    public A141LinkedListCycle.ListNode detectCycle(A141LinkedListCycle.ListNode head) {
+        A141LinkedListCycle.ListNode slow = head;
+        A141LinkedListCycle.ListNode fast = head;
 
         while(fast != null && fast.next != null) {
             slow = slow.next;

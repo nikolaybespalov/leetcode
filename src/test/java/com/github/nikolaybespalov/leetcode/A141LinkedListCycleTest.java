@@ -9,10 +9,10 @@ public class A141LinkedListCycleTest {
 
     @Test
     public void test1() {
-        ListNode list = new ListNode(3);
-        list.next = new ListNode(2);
-        list.next.next = new ListNode(0);
-        list.next.next.next = new ListNode(4);
+        A141LinkedListCycle.ListNode list = new A141LinkedListCycle.ListNode(3);
+        list.next = new A141LinkedListCycle.ListNode(2);
+        list.next.next = new A141LinkedListCycle.ListNode(0);
+        list.next.next.next = new A141LinkedListCycle.ListNode(4);
         list.next.next.next.next = list.next;
 
         assertTrue(instance.hasCycle(list));
@@ -20,8 +20,8 @@ public class A141LinkedListCycleTest {
 
     @Test
     public void test2() {
-        ListNode list = new ListNode(1);
-        list.next = new ListNode(2);
+        A141LinkedListCycle.ListNode list = new A141LinkedListCycle.ListNode(1);
+        list.next = new A141LinkedListCycle.ListNode(2);
         list.next.next = list;
 
         assertTrue(instance.hasCycle(list));
@@ -29,14 +29,14 @@ public class A141LinkedListCycleTest {
 
     @Test
     public void test3() {
-        ListNode list = new ListNode(1);
+        A141LinkedListCycle.ListNode list = new A141LinkedListCycle.ListNode(1);
 
         assertFalse(instance.hasCycle(list));
     }
 
     @Test
     public void test4() {
-        ListNode list = new ListNode(1);
+        A141LinkedListCycle.ListNode list = new A141LinkedListCycle.ListNode(1);
         list.next = list;
 
         assertTrue(instance.hasCycle(list));
