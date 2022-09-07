@@ -2,6 +2,7 @@ package com.github.nikolaybespalov.leetcode;
 
 import com_github_leetcode.ListNode;
 import com_github_leetcode.TreeNode;
+import com_github_leetcode.left_right.Node;
 
 import static org.junit.Assert.fail;
 
@@ -45,6 +46,16 @@ public class LeetcodeUtils {
 
     public static void assertSameTree(TreeNode root1, TreeNode root2) {
         if (root1 != null && root2 != null && root1.val == root2.val) {
+            assertSameTree(root1.left, root2.left);
+            assertSameTree(root1.right, root2.right);
+        } else if (root1 != null || root2 != null) {
+            fail("Trees are not same");
+        }
+    }
+
+    public static void assertSameTree(Node root1, Node root2) {
+        if (root1 != null && root2 != null && root1.val == root2.val
+                && (root1.next != null && root2.next != null && root1.next.val == root2.next.val || root1.next == null && root2.next == null)) {
             assertSameTree(root1.left, root2.left);
             assertSameTree(root1.right, root2.right);
         } else if (root1 != null || root2 != null) {
