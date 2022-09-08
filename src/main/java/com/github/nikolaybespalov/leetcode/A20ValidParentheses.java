@@ -14,7 +14,7 @@ public class A20ValidParentheses {
 
             if (c == '(' || c == '[' || c == '{') {
                 stack.push(c);
-            } else if (c == ')' || c == ']' || c == '}') {
+            } else {
                 if (stack.isEmpty()) {
                     return false;
                 }
