@@ -9,16 +9,14 @@ public class A70ClimbingStairs {
             return 0;
         }
 
-        int a = 0;
-        int b = 1;
-        int ans = a + b;
+        int[] dp = new int[n + 2];
+        dp[0] = 0;
+        dp[1] = 1;
 
-        for (int i = 0; i < n; i++) {
-            ans = a + b;
-            a = b;
-            b = ans;
+        for (int i = 2; i < dp.length; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
         }
 
-        return ans;
+        return dp[dp.length - 1];
     }
 }
