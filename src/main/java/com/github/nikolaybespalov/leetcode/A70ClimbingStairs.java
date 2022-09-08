@@ -13,7 +13,7 @@ public class A70ClimbingStairs {
         int b = 1;
         int ans = a + b;
 
-        for (int i = 2; i < n + 2; i++) {
+        for (int i = 0; i < n; i++) {
             ans = a + b;
             a = b;
             b = ans;
