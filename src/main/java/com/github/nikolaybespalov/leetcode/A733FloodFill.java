@@ -17,23 +17,16 @@ public class A733FloodFill {
         while (!q.isEmpty()) {
             int[] a = q.poll();
 
+            if (!isValid(image, a[0], a[1], color, sourceColor)) {
+                continue;
+            }
+
             image[a[0]][a[1]] = color;
 
-            if (isValid(image, a[0] - 1, a[1], color, sourceColor)) {
-                q.offer(new int[]{a[0] - 1, a[1]});
-            }
-
-            if (isValid(image, a[0] + 1, a[1], color, sourceColor)) {
-                q.offer(new int[]{a[0] + 1, a[1]});
-            }
-
-            if (isValid(image, a[0], a[1] - 1, color, sourceColor)) {
-                q.offer(new int[]{a[0], a[1] - 1});
-            }
-
-            if (isValid(image, a[0], a[1] + 1, color, sourceColor)) {
-                q.offer(new int[]{a[0], a[1] + 1});
-            }
+            q.offer(new int[]{a[0] - 1, a[1]});
+            q.offer(new int[]{a[0] + 1, a[1]});
+            q.offer(new int[]{a[0], a[1] - 1});
+            q.offer(new int[]{a[0], a[1] + 1});
         }
 
         return image;
