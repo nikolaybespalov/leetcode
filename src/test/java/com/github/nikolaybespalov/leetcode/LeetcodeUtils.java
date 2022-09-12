@@ -51,12 +51,12 @@ public class LeetcodeUtils {
         for (int i = 0; i < splits.length / 2; i ++) {
             TreeNode node = nodes[i];
 
-            if (!splits[2 * i + 1].equals("null")) {
+            if (2 * i + 1 < splits.length && !splits[2 * i + 1].equals("null")) {
                 node.left = new TreeNode(Integer.parseInt(splits[2 * i + 1]));
                 nodes[2 * i + 1] = node.left;
             }
 
-            if (!splits[2 * i + 2].equals("null")) {
+            if (2 * i + 2 < splits.length && !splits[2 * i + 2].equals("null")) {
                 node.right = new TreeNode(Integer.parseInt(splits[2 * i + 2]));
                 nodes[2 * i + 2] = node.right;
             }
