@@ -18,4 +18,9 @@ public class A438FindAllAnagramsInAStringTest {
     public void test2() {
         assertEquals(Arrays.asList(0, 1, 2), instance.findAnagrams("abab", "ab"));
     }
+
+    @Test
+    public void test3() {
+        assertEquals(Arrays.asList(0, 3), instance.findAnagrams("abcba", "ab"));
+    }
 }
