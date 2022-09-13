@@ -7,16 +7,35 @@ import com_github_leetcode.ListNode;
  */
 public class A147InsertionSortList {
     public ListNode insertionSortList(ListNode head) {
-        for (ListNode i = head; i != null; i = i.next) {
-            for (ListNode j = head; j.next != null; j = j.next) {
-                if (j.val > j.next.val) {
-                    int temp = j.val;
-                    j.val = j.next.val;
-                    j.next.val = temp;
-                }
-            }
+        ListNode sorted = null;
+        ListNode cur = head;
+
+        while (cur != null) {
+            ListNode next = cur.next;
+
+            sorted = sortedInsert(sorted, cur);
+
+            cur = next;
         }
 
-        return head;
+        return sorted;
+    }
+
+    private ListNode sortedInsert(ListNode sorted, ListNode node) {
+        if (sorted == null || sorted.val > node.val) {
+            node.next = sorted;
+            sorted = node;
+        } else {
+            ListNode cur = sorted;
+
+            while (cur.next != null && cur.next.val <= node.val) {
+                cur = cur.next;
+            }
+
+            node.next = cur.next;
+            cur.next = node;
+        }
+
+        return sorted;
     }
 }
